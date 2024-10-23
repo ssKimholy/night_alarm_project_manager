@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:_night_alarm_manager/widget/alarm_days_widget.dart';
 import 'package:_night_alarm_manager/widget/alarm_time_widget.dart';
-import 'package:_night_alarm_manager/widget/text_message_input_widget.dart';
+import 'package:_night_alarm_manager/widget/message_input_widget.dart';
 import 'package:flutter/material.dart';
 
 class AlarmSettingScreen extends StatefulWidget {

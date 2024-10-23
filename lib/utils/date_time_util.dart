@@ -36,4 +36,12 @@ class DateTimeUtils {
 
     return DateFormat('a h:mm', "ko-KR").format(dateTime);
   }
+
+  static String convertDateToWeek(String dateString) {
+    DateTime datetime = DateFormat('yyyy.MM.dd').parse(dateString);
+
+    List<String> weekdays = ['월', '화', '수', '목', '금', '토', '일'];
+
+    return weekdays[datetime.weekday - 1];
+  }
 }
