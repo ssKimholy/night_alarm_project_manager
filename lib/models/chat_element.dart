@@ -16,5 +16,5 @@ class ChatElement {
   String get getChatType => chatType;
   String get getChatDay => chatDay;
   ChatBodyElement get getChatBody => chatBody;
-  bool get getIsComplete => answerList.length == 2;
+  bool get getIsComplete => !answerList.contains(-1);
 }
