@@ -28,9 +28,10 @@ class _DailySurveyScreenState extends State<DailySurveyScreen> {
               // 최초 1회 설문을 제출한 경우 수정 불가
               return;
             }
-            setState(() {
-              widget.tmpList[qIndex] = nIndex;
-            });
+            // manager는 설문 수정 불가
+            // setState(() {
+            //   widget.tmpList[qIndex] = nIndex;
+            // });
           },
           child: Icon(
             current == nIndex ? Icons.radio_button_on : Icons.radio_button_off,
@@ -175,20 +176,22 @@ class _DailySurveyScreenState extends State<DailySurveyScreen> {
             ),
             GestureDetector(
               onTap: () {
-                // http 설문 결과 전송.
-                if (widget.tmpList.contains(-1)) {
-                  // 100% 설문을 완료한 것이 아니면 다시 하도록
-                  const snackBar = SnackBar(
-                    content: Text('모든 문항에 답변해주세요.'),
-                    duration: Duration(seconds: 2), // 메시지가 표시되는 시간
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  return;
-                }
-                setState(() {
-                  widget.onChangeAnswerList(widget.tmpList);
-                });
-                Navigator.pop(context);
+                // manager는 전송 불가
+
+                // // http 설문 결과 전송.
+                // if (widget.tmpList.contains(-1)) {
+                //   // 100% 설문을 완료한 것이 아니면 다시 하도록
+                //   const snackBar = SnackBar(
+                //     content: Text('모든 문항에 답변해주세요.'),
+                //     duration: Duration(seconds: 2), // 메시지가 표시되는 시간
+                //   );
+                //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                //   return;
+                // }
+                // setState(() {
+                //   widget.onChangeAnswerList(widget.tmpList);
+                // });
+                // Navigator.pop(context);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

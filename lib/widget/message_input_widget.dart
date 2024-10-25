@@ -155,7 +155,7 @@ class _MessageInputWidgetState extends State<MessageInputWidget> {
                     padding: const EdgeInsets.all(20.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: const Color(0xffcbcbcbcb),
+                      color: const Color(0xffcbcbcb),
                     ),
                     child: const Icon(
                       Icons.upload_rounded,

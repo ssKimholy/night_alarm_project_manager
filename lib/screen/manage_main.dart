@@ -1,6 +1,7 @@
 import 'package:_night_alarm_manager/models/chat_body_element.dart';
 import 'package:_night_alarm_manager/models/chat_element.dart';
 import 'package:_night_alarm_manager/models/user_element.dart';
+import 'package:_night_alarm_manager/models/weekly_survey_element.dart';
 import 'package:_night_alarm_manager/widget/profile_widget.dart';
 import 'package:_night_alarm_manager/widget/top_bar.dart';
 import 'package:_night_alarm_manager/widget/top_of_profile.dart';
@@ -11,12 +12,24 @@ import 'package:flutter/widgets.dart';
 class ManageMain extends StatelessWidget {
   ManageMain({super.key});
 
+  // here user list initialize
+
   final List<UserElement> users = [
     UserElement(
         userName: '김경영',
         userId: 'text-P1',
-        weeklySurvey: false,
+        weeklySurveyList: {
+          1: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          2: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          3: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          4: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1])
+        },
         type: 'Text Group',
+        experimentWeek: 1,
         chatList: [
           ChatElement(
               chatType: 'Text Group',
@@ -26,7 +39,7 @@ class ManageMain extends StatelessWidget {
                       '충분한 수면이 기억력과 집중력 향상에 도움이 된다는 사실을 알고 계셨나요? 오늘 밤 일찍 잠자리에 들면 상쾌하게 일어나 하루를 시작할 수 있습니다. 수면은 몸의 배터리를 충전하는 것과 같으니까 재충전하는 거 잊지 마세요!',
                   voiceId: 'vnull',
                   videoId: 'vinull'),
-              answerList: [-1, -1, -1]),
+              answerList: [2, 5, 6]),
           ChatElement(
               chatType: 'Text Group',
               chatDay: '2024.10.22',
@@ -49,13 +62,33 @@ class ManageMain extends StatelessWidget {
     UserElement(
         userName: '박경영',
         userId: 'text-P2',
-        weeklySurvey: false,
+        weeklySurveyList: {
+          1: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          2: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          3: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          4: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1])
+        },
+        experimentWeek: 1,
         type: 'Text Group',
         chatList: []),
     UserElement(
         userName: '이경영',
         userId: 'voice-P1',
-        weeklySurvey: false,
+        experimentWeek: 1,
+        weeklySurveyList: {
+          1: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          2: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          3: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          4: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1])
+        },
         type: 'Voice Group',
         chatList: [
           ChatElement(
@@ -68,13 +101,33 @@ class ManageMain extends StatelessWidget {
     UserElement(
         userName: '황경영',
         userId: 'voice-P2',
-        weeklySurvey: false,
+        experimentWeek: 1,
+        weeklySurveyList: {
+          1: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          2: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          3: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          4: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1])
+        },
         type: 'Voice Group',
         chatList: []),
     UserElement(
         userName: '유경영',
         userId: 'Video-P1',
-        weeklySurvey: false,
+        experimentWeek: 1,
+        weeklySurveyList: {
+          1: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          2: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          3: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1]),
+          4: WeeklySurveyElement(
+              sleep: [-1, -1, -1], phq: [-1, -1, -1, -1, -1, -1, -1, -1, -1])
+        },
         type: 'Video Group',
         chatList: [
           ChatElement(

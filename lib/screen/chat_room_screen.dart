@@ -1,5 +1,6 @@
 import 'package:_night_alarm_manager/models/chat_element.dart';
 import 'package:_night_alarm_manager/models/user_element.dart';
+import 'package:_night_alarm_manager/screen/weekly_survey_screen.dart';
 import 'package:_night_alarm_manager/widget/chat_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     if (_scrollController.hasClients) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     }
+  }
+
+  void onChangeWeeklySurvey(List<int> sl, List<int> pq) {
+    setState(() {
+      widget.user.getWeeklySurvey(widget.user.getExperimentWeek).setSleep(sl);
+      widget.user.getWeeklySurvey(widget.user.getExperimentWeek).setPhq(pq);
+    });
   }
 
   @override
@@ -61,12 +69,30 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               child: GestureDetector(
                 onTap: () {
                   // 주간 설문 페이지로 이동
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return WeeklySurveyScreen(
+                        tmpSleepList: widget.user
+                            .getWeeklySurvey(widget.user.getExperimentWeek)
+                            .getSleep
+                            .toList(),
+                        tmpPhqList: widget.user
+                            .getWeeklySurvey(widget.user.getExperimentWeek)
+                            .getPhq
+                            .toList(),
+                        user: widget.user,
+                        onChangeWeeklySurvey: onChangeWeeklySurvey,
+                      );
+                    },
+                  ));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    color: widget.user.getWeeklySurvey
+                    // 실험 주를 세는 속성이 있어야 함.
+                    color: widget.user.isWeeklySurveyComplete(
+                            widget.user.getExperimentWeek)
                         ? const Color(0xff9decd1).withOpacity(0.7)
                         : const Color(0xffef696b).withOpacity(0.7),
                   ),

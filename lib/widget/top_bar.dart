@@ -1,3 +1,4 @@
+import 'package:_night_alarm_manager/screen/add_participant_screen.dart';
 import 'package:flutter/material.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
@@ -26,15 +27,21 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             color: Color(0xff3AD277),
           ),
           child: IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              onPressed: () {},
-              icon: const Icon(
-                Icons.person_add_alt_1,
-                color: Colors.white,
-                size: 26,
-              )),
-        )
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddParticipantScreen()),
+              );
+            },
+            icon: const Icon(
+              Icons.person_add_alt_1,
+              color: Colors.white,
+              size: 26,
+            ),
+          ),
+        ),
       ],
     );
   }
