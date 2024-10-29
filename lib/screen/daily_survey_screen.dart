@@ -114,7 +114,7 @@ class _DailySurveyScreenState extends State<DailySurveyScreen> {
               ),
               child: Column(
                 children: [
-                  const Text('취침을 할 의향이 있으십니까? (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)',
+                  const Text('나는 취침할 의향이 있다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Noto_Sans_KR',
@@ -146,31 +146,64 @@ class _DailySurveyScreenState extends State<DailySurveyScreen> {
               ),
               child: Column(
                 children: [
-                  const Text('현재 감정에 대해 평가해주세요.',
+                  const Text(
+                      '나는 해당 메시지가 유익하다고 생각한다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Noto_Sans_KR',
                           fontSize: 14,
                           fontWeight: FontWeight.w400)),
                   const SizedBox(
-                    height: 10.0,
-                  ),
-                  Image.asset('assets/valence.png'),
-                  const SizedBox(
                     height: 20.0,
                   ),
-                  radioButtons(1, 7),
-                  const SizedBox(
-                    height: 25.0,
-                  ),
-                  Image.asset('assets/arousal.png'),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  radioButtons(2, 7)
+                  radioButtons(1, 4)
                 ],
               ),
             ),
+            // Container(
+            //   margin:
+            //       const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            //   padding:
+            //       const EdgeInsets.symmetric(horizontal: 20.0, vertical: 13.0),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(25.0),
+            //     color: Colors.white,
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.grey.withOpacity(0.3), // 그림자 색상 및 투명도
+            //         spreadRadius: 3, // 그림자가 퍼지는 반경
+            //         blurRadius: 2, // 그림자의 흐림 정도
+            //         offset: const Offset(1, 2), // 그림자의 위치 (x축, y축)
+            //       ),
+            //     ],
+            //   ),
+            //   child: Column(
+            //     children: [
+            //       const Text('현재 감정에 대해 평가해주세요.',
+            //           style: TextStyle(
+            //               color: Colors.black,
+            //               fontFamily: 'Noto_Sans_KR',
+            //               fontSize: 14,
+            //               fontWeight: FontWeight.w400)),
+            //       const SizedBox(
+            //         height: 10.0,
+            //       ),
+            //       Image.asset('assets/valence.png'),
+            //       const SizedBox(
+            //         height: 20.0,
+            //       ),
+            //       radioButtons(1, 7),
+            //       const SizedBox(
+            //         height: 25.0,
+            //       ),
+            //       Image.asset('assets/arousal.png'),
+            //       const SizedBox(
+            //         height: 20.0,
+            //       ),
+            //       radioButtons(2, 7)
+            //     ],
+            //   ),
+            // ),
             const SizedBox(
               height: 40.0,
             ),

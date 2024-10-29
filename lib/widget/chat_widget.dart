@@ -34,24 +34,28 @@ class _ChatWidgetState extends State<ChatWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              color: widget.chat.getIsComplete
-                  ? const Color(0xff9decd1).withOpacity(0.7)
-                  : const Color(0xffef696b).withOpacity(0.7),
+          Center(
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                color: widget.chat.getIsComplete
+                    ? const Color(0xff9decd1).withOpacity(0.7)
+                    : const Color(0xffef696b).withOpacity(0.7),
+              ),
+              child: Text(
+                  '${widget.chat.chatDay} (${DateTimeUtils.convertDateToWeek(widget.chat.chatDay)})',
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Noto_Sans_KR',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700)),
             ),
-            child: Text(
-                '${widget.chat.chatDay} (${DateTimeUtils.convertDateToWeek(widget.chat.chatDay)})',
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Noto_Sans_KR',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700)),
           ),
           widget.user.getUserType == 'Text Group'
               ? TextChatWidget(
@@ -60,41 +64,44 @@ class _ChatWidgetState extends State<ChatWidget> {
               : widget.user.getUserType == 'Voice Group'
                   ? VoiceChatWidget(chat: widget.chat)
                   : VideoChatWidget(chat: widget.chat),
-          GestureDetector(
-            onTap: () {
-              // go to survey page
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return DailySurveyScreen(
-                    chat: widget.chat,
-                    onChangeAnswerList: onChangeAnswerList,
-                    tmpList: widget.chat.answerList.toList(),
-                  );
-                },
-              ));
-            },
-            child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.0),
-                  color: widget.chat.getIsComplete
-                      ? const Color(0xff9decd1).withOpacity(0.7)
-                      : const Color(0xffef696b).withOpacity(0.7),
-                ),
-                child: widget.chat.getIsComplete
-                    ? const Text('설문 완료',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Noto_Sans_KR',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500))
-                    : const Text('설문 시작',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Noto_Sans_KR',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500))),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: GestureDetector(
+              onTap: () {
+                // go to survey page
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return DailySurveyScreen(
+                      chat: widget.chat,
+                      onChangeAnswerList: onChangeAnswerList,
+                      tmpList: widget.chat.answerList.toList(),
+                    );
+                  },
+                ));
+              },
+              child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 9.0, vertical: 6.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.0),
+                    color: widget.chat.getIsComplete
+                        ? const Color(0xff9decd1).withOpacity(0.7)
+                        : const Color(0xffef696b).withOpacity(0.7),
+                  ),
+                  child: widget.chat.getIsComplete
+                      ? const Text('설문 완료',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Noto_Sans_KR',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500))
+                      : const Text('설문 시작',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Noto_Sans_KR',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500))),
+            ),
           )
         ],
       ),
