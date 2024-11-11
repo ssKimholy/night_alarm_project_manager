@@ -30,7 +30,6 @@ class _VoiceChatWidgetState extends State<VoiceChatWidget> {
                 onTap: () {
                   if (!widget.isPlayed) {
                     // play voice
-                    widget.chat.chatBody.playVoiceMessage();
                   } else {
                     // stop voice
                   }
@@ -46,8 +45,8 @@ class _VoiceChatWidgetState extends State<VoiceChatWidget> {
                   color: const Color(0xff3ad277),
                 ),
               ),
-              Text('0:${widget.chat.chatBody.getVoiceLength().toString()}',
-                  style: const TextStyle(
+              const Text('0:15',
+                  style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'Noto_Sans_KR',
                       fontSize: 14,

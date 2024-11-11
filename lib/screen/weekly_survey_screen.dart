@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 class WeeklySurveyScreen extends StatefulWidget {
   List<int> tmpSleepList;
-  List<int> tmpPhqList;
   final UserElement user;
   final Function onChangeWeeklySurvey;
+  int weekNum;
 
   WeeklySurveyScreen(
       {super.key,
       required this.tmpSleepList,
-      required this.tmpPhqList,
       required this.user,
-      required this.onChangeWeeklySurvey});
+      required this.onChangeWeeklySurvey,
+      required this.weekNum});
 
   @override
   State<WeeklySurveyScreen> createState() => _WeeklySurveyScreenState();
@@ -24,16 +24,12 @@ class _WeeklySurveyScreenState extends State<WeeklySurveyScreen> {
       children: [
         GestureDetector(
           onTap: () {
-            if (widget.user
-                .isWeeklySurveyComplete(widget.user.getExperimentWeek)) {
+            if (widget.user.getWeeklySurvey
+                .isWeeklySurveyComplete(widget.weekNum)) {
               return; // 설문 수정 불가
             }
             // setState(() {
-            //   if (qType == 'sleep') {
-            //     widget.tmpSleepList[qIndex] = nIndex;
-            //   } else {
-            //     widget.tmpPhqList[qIndex] = nIndex;
-            //   }
+            //   widget.tmpSleepList[qIndex] = nIndex;
             // });
           },
           child: Icon(
@@ -52,9 +48,7 @@ class _WeeklySurveyScreenState extends State<WeeklySurveyScreen> {
   }
 
   Widget radioButtons(int qIndex, int qLength, String qType) {
-    int current = qType == 'sleep'
-        ? widget.tmpSleepList[qIndex]
-        : widget.tmpPhqList[qIndex];
+    int current = widget.tmpSleepList[qIndex];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,7 +85,7 @@ class _WeeklySurveyScreenState extends State<WeeklySurveyScreen> {
           const SizedBox(
             height: 20.0,
           ),
-          radioButtons(qIndex, qType == "sleep" ? 5 : 4, qType) // qType별 항목 개수
+          radioButtons(qIndex, 4, qType) // qType별 항목 개수
         ],
       ),
     );
@@ -121,7 +115,7 @@ class _WeeklySurveyScreenState extends State<WeeklySurveyScreen> {
               height: 20.0,
             ),
             Center(
-              child: Text('실험 ${widget.user.getExperimentWeek}주차 설문',
+              child: Text('실험 ${widget.weekNum}주차 설문',
                   style: const TextStyle(
                       color: Colors.black,
                       fontFamily: 'Noto_Sans_KR',
@@ -156,77 +150,75 @@ class _WeeklySurveyScreenState extends State<WeeklySurveyScreen> {
               }
               return questionContainer(question, "sleep", index);
             }),
-            const SizedBox(
-              height: 40.0,
-            ),
-            const Center(
-              child: Text('우울 관련 설문',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Noto_Sans_KR',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700)),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                child: Text(
-                    '아래의 문항을 잘 읽으신 후, 지난 1주 동안 자신을 가장 잘 설명하는 칸에 체크 해 주세요.',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Noto_Sans_KR',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500)),
-              ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            // 우울 관련 질문들
-            ...List.generate(9, (index) {
-              String question = "";
-              switch (index) {
-                case 0:
-                  question =
-                      "기분이 가라앉거나, 우울하거나, 희망이 없다고 느꼈다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 1:
-                  question =
-                      "평소 하던 일에 대한 흥미가 없어지거나 즐거움을 느끼지 못했다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 2:
-                  question =
-                      "잠들기가 어렵거나 자주 깼다/혹은 너무 많이 잤다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 3:
-                  question =
-                      "평소보다 식욕이 줄었다/혹은 평소보다 많이 먹었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 4:
-                  question =
-                      "다른 사람들이 눈치 챌 정도로 평소보다 말과 행동이 느려졌다/혹은 너무 안절부절 못해서 가만히 앉아 있을 수 없었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 5:
-                  question = "피곤하고 기운이 없었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 6:
-                  question =
-                      "내가 잘못 했거나, 실패했다는 생각이 들었다/혹은 자신과 가족을 실망시켰다고 생각했다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 7:
-                  question =
-                      "신문을 읽거나 TV를 보는 것과 같은 일상적인 일에도 집중 할 수가 없었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-                case 8:
-                  question =
-                      "차라리 죽는 것이 더 낫겠다고 생각했다/혹은 자해할 생각을 했다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
-                  break;
-              }
-              return questionContainer(question, "depression", index);
-            }),
+
+            // const Center(
+            //   child: Text('우울 관련 설문',
+            //       style: TextStyle(
+            //           color: Colors.black,
+            //           fontFamily: 'Noto_Sans_KR',
+            //           fontSize: 14,
+            //           fontWeight: FontWeight.w700)),
+            // ),
+            // const SizedBox(
+            //   height: 20.0,
+            // ),
+            // const Center(
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+            //     child: Text(
+            //         '아래의 문항을 잘 읽으신 후, 지난 1주 동안 자신을 가장 잘 설명하는 칸에 체크 해 주세요.',
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontFamily: 'Noto_Sans_KR',
+            //             fontSize: 14,
+            //             fontWeight: FontWeight.w500)),
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 20.0,
+            // ),
+            // // 우울 관련 질문들
+            // ...List.generate(9, (index) {
+            //   String question = "";
+            //   switch (index) {
+            //     case 0:
+            //       question =
+            //           "기분이 가라앉거나, 우울하거나, 희망이 없다고 느꼈다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 1:
+            //       question =
+            //           "평소 하던 일에 대한 흥미가 없어지거나 즐거움을 느끼지 못했다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 2:
+            //       question =
+            //           "잠들기가 어렵거나 자주 깼다/혹은 너무 많이 잤다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 3:
+            //       question =
+            //           "평소보다 식욕이 줄었다/혹은 평소보다 많이 먹었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 4:
+            //       question =
+            //           "다른 사람들이 눈치 챌 정도로 평소보다 말과 행동이 느려졌다/혹은 너무 안절부절 못해서 가만히 앉아 있을 수 없었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 5:
+            //       question = "피곤하고 기운이 없었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 6:
+            //       question =
+            //           "내가 잘못 했거나, 실패했다는 생각이 들었다/혹은 자신과 가족을 실망시켰다고 생각했다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 7:
+            //       question =
+            //           "신문을 읽거나 TV를 보는 것과 같은 일상적인 일에도 집중 할 수가 없었다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //     case 8:
+            //       question =
+            //           "차라리 죽는 것이 더 낫겠다고 생각했다/혹은 자해할 생각을 했다. (0: 전혀 그렇지 않다 ~ 3: 매우 그렇다)";
+            //       break;
+            //   }
+            //   return questionContainer(question, "depression", index);
+            // }),
             const SizedBox(
               height: 40.0,
             ),
@@ -235,8 +227,7 @@ class _WeeklySurveyScreenState extends State<WeeklySurveyScreen> {
                 // manager는 전송 불가
 
                 // // http 설문 결과 전송.
-                // if (widget.tmpSleepList.contains(-1) ||
-                //     widget.tmpPhqList.contains(-1)) {
+                // if (widget.tmpSleepList.contains(-1)) {
                 //   // 100% 설문을 완료한 것이 아니면 다시 하도록
                 //   const snackBar = SnackBar(
                 //     content: Text('모든 문항에 답변해주세요.'),
@@ -247,9 +238,9 @@ class _WeeklySurveyScreenState extends State<WeeklySurveyScreen> {
                 // }
                 // setState(() {
                 //   widget.onChangeWeeklySurvey(
-                //       widget.tmpSleepList, widget.tmpPhqList);
+                //       widget.tmpSleepList, widget.weekNum);
                 // });
-                // Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

@@ -107,7 +107,7 @@ class _MessageInputWidgetState extends State<MessageInputWidget> {
           const SizedBox(
             height: 15.0,
           ),
-          widget.type == 'Text Group'
+          widget.type == 'text'
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: TextField(

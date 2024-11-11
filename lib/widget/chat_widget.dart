@@ -18,7 +18,7 @@ class ChatWidget extends StatefulWidget {
 }
 
 class _ChatWidgetState extends State<ChatWidget> {
-  void onChangeAnswerList(List<int> newList) {
+  void onChangeAnswerList(List<String> newList) {
     setState(() {
       widget.chat.answerList = newList;
     });
@@ -57,11 +57,11 @@ class _ChatWidgetState extends State<ChatWidget> {
                       fontWeight: FontWeight.w700)),
             ),
           ),
-          widget.user.getUserType == 'Text Group'
+          widget.user.getUserType == 'text'
               ? TextChatWidget(
-                  textBody: widget.chat.chatBody.getTextBody,
+                  textBody: widget.chat.content,
                 )
-              : widget.user.getUserType == 'Voice Group'
+              : widget.user.getUserType == 'voice'
                   ? VoiceChatWidget(chat: widget.chat)
                   : VideoChatWidget(chat: widget.chat),
           Padding(

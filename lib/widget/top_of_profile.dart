@@ -15,9 +15,9 @@ class TopOfProfile extends StatelessWidget {
         Row(
           children: [
             Icon(
-              type == 'Text Group'
+              type == 'text'
                   ? Icons.chat_outlined
-                  : type == 'Voice Group'
+                  : type == 'voice'
                       ? Icons.mic_none_outlined
                       : Icons.video_chat_outlined,
               color: Colors.black,

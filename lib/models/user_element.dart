@@ -3,36 +3,38 @@ import 'package:_night_alarm_manager/models/weekly_survey_element.dart';
 
 class UserElement {
   String userName;
-  String userId;
+  int userId;
+  String userPassword;
   String type;
+  String userDeviceCode;
   List<ChatElement> chatList;
-  Map<int, WeeklySurveyElement> weeklySurveyList;
+  WeeklySurveyElement weeklySurvey;
   int experimentWeek;
 
   UserElement({
     required this.userName,
     required this.userId,
+    required this.userPassword,
     required this.type,
+    required this.userDeviceCode,
     required this.chatList,
-    required this.weeklySurveyList,
+    required this.weeklySurvey,
     required this.experimentWeek,
   });
 
   String get getUserName => userName;
-  String get getUserId => userId;
+  int get getUserId => userId;
   String get getUserType => type;
+  String get getUserDeviceCode => userDeviceCode;
   List<ChatElement> get getChatList => chatList;
   int get getExperimentWeek => experimentWeek;
+  WeeklySurveyElement get getWeeklySurvey => weeklySurvey;
 
-  bool isWeeklySurveyComplete(int week) {
-    if (weeklySurveyList[week]!.getSleep.contains(-1) ||
-        weeklySurveyList[week]!.getPhq.contains(-1)) {
-      return false;
-    }
-    return true;
+  List<int> getWeeklySurveyList(int week) {
+    return weeklySurvey.getAnswer(week);
   }
 
-  WeeklySurveyElement getWeeklySurvey(int week) {
-    return weeklySurveyList[week]!;
+  void setUserDeviceCode(String devicecode) {
+    userDeviceCode = devicecode;
   }
 }

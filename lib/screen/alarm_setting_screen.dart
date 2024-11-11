@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:_night_alarm_manager/utils/http_util.dart';
 import 'package:_night_alarm_manager/widget/alarm_days_widget.dart';
 import 'package:_night_alarm_manager/widget/alarm_time_widget.dart';
 import 'package:_night_alarm_manager/widget/message_input_widget.dart';
@@ -108,8 +109,15 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                 height: 15.0,
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   // submit code
+                  if (widget.type == 'text') {
+                    HttpUtil.createTextMessage(widget.alarmTime,
+                        widget.alarmDays, widget.type, widget.textMessage);
+                  } else {
+                    HttpUtil.createVoicetMessage(widget.alarmTime,
+                        widget.alarmDays, widget.selectedFile!.path, "");
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 7.0),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DailySurveyScreen extends StatefulWidget {
   final ChatElement chat;
   final Function onChangeAnswerList;
-  List<int> tmpList; // 임시 답변 저장
+  List<String> tmpList; // 임시 답변 저장
 
   DailySurveyScreen({
     super.key,
@@ -19,7 +19,7 @@ class DailySurveyScreen extends StatefulWidget {
 }
 
 class _DailySurveyScreenState extends State<DailySurveyScreen> {
-  Widget radioButton(int current, int nIndex, int qIndex) {
+  Widget radioButton(String current, int nIndex, int qIndex) {
     return Column(
       children: [
         GestureDetector(
@@ -34,7 +34,9 @@ class _DailySurveyScreenState extends State<DailySurveyScreen> {
             // });
           },
           child: Icon(
-            current == nIndex ? Icons.radio_button_on : Icons.radio_button_off,
+            current == nIndex.toString()
+                ? Icons.radio_button_on
+                : Icons.radio_button_off,
             color: Colors.black,
           ),
         ),
@@ -49,7 +51,7 @@ class _DailySurveyScreenState extends State<DailySurveyScreen> {
   }
 
   Widget radioButtons(int qIndex, int qLength) {
-    int current = widget.tmpList[qIndex];
+    String current = widget.tmpList[qIndex];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
