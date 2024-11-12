@@ -48,8 +48,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                     ? const Color(0xff9decd1).withOpacity(0.7)
                     : const Color(0xffef696b).withOpacity(0.7),
               ),
-              child: Text(
-                  '${widget.chat.chatDay} (${DateTimeUtils.convertDateToWeek(widget.chat.chatDay)})',
+              child: Text(widget.chat.chatDay,
                   style: const TextStyle(
                       color: Colors.black,
                       fontFamily: 'Noto_Sans_KR',

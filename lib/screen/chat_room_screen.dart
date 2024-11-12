@@ -1,12 +1,15 @@
 import 'package:_night_alarm_manager/models/chat_element.dart';
 import 'package:_night_alarm_manager/models/user_element.dart';
+import 'package:_night_alarm_manager/models/weekly_survey_element.dart';
 import 'package:_night_alarm_manager/screen/weekly_mediation_screen.dart';
 import 'package:_night_alarm_manager/screen/weekly_survey_screen.dart';
+import 'package:_night_alarm_manager/utils/http_util.dart';
 import 'package:_night_alarm_manager/widget/chat_widget.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoomScreen extends StatefulWidget {
   UserElement user;
+  UserElement? viewUser;
 
   ChatRoomScreen({super.key, required this.user});
 
@@ -20,6 +23,47 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   @override
   void initState() {
     super.initState();
+    makeUserViewer();
+  }
+
+  ChatElement _parseJsonToChatElement(Map<String, dynamic> json) {
+    return ChatElement(
+      chatId: json['chatId'],
+      chatType: json['user']['userType'],
+      chatDay: json['alarm']['alarmDays'],
+      content: json['user']['userType'] == 'text'
+          ? json['alarm']['textContent']
+          : json['alarm']['alarmContent'],
+      answerList: [
+        json['answer']['answer1'] ?? '-1',
+        json['answer']['answer2'] ?? '-1',
+      ],
+    );
+  }
+
+  void makeUserViewer() async {
+    final List chatList = await HttpUtil.getUserChatList(widget.user.userId);
+    final userChatList = chatList
+        .map<ChatElement>((json) => _parseJsonToChatElement(json))
+        .toList();
+
+    setState(() {
+      widget.viewUser = UserElement(
+          userName: widget.user.getUserName,
+          userId: widget.user.getUserId,
+          userPassword: widget.user.userPassword,
+          type: widget.user.getUserType,
+          userDeviceCode: widget.user.getUserDeviceCode,
+          chatList: userChatList,
+          weeklySurvey: WeeklySurveyElement(answer: {
+            1: [-1]
+          }),
+          experimentWeek: 1);
+    });
+
+    print(
+        'userName: ${widget.viewUser!.getUserName}, userpw: ${widget.viewUser!.userPassword}, usertype: ${widget.viewUser!.getUserType}, userDeviceCode: ${widget.viewUser!.getUserDeviceCode}');
+
     // 페이지가 로드될 때 맨 아래로 스크롤
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToBottom();
@@ -28,19 +72,30 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeOut,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.viewUser == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
         backgroundColor: const Color(0xfffefcfc),
         appBar: AppBar(
           toolbarHeight: 80,
           backgroundColor: Colors.white,
           title: Text(
-            '${widget.user.getUserName} 참여자',
+            '${widget.viewUser!.getUserName} 참여자',
             style: const TextStyle(
                 color: Colors.black,
                 fontFamily: 'Noto_Sans_KR',
@@ -55,7 +110,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   // 주간 설문 페이지로 이동
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return WeekyMediationScreen(user: widget.user);
+                      return WeekyMediationScreen(user: widget.viewUser!);
                     },
                   ));
                 },
@@ -89,10 +144,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         body: Expanded(
           child: ListView.builder(
             controller: _scrollController,
-            itemCount: widget.user.chatList.length,
+            itemCount: widget.viewUser!.chatList.length,
             itemBuilder: (context, index) {
               return ChatWidget(
-                  user: widget.user, chat: widget.user.chatList[index]);
+                  user: widget.viewUser!,
+                  chat: widget.viewUser!.chatList[index]);
             },
           ),
         ));

@@ -86,8 +86,7 @@ class _DailySurveyScreenState extends State<DailySurveyScreen> {
               height: 20.0,
             ),
             Center(
-              child: Text(
-                  '${widget.chat.chatDay} (${DateTimeUtils.convertDateToWeek(widget.chat.chatDay)}) 설문',
+              child: Text('${widget.chat.chatDay}  설문',
                   style: const TextStyle(
                       color: Colors.black,
                       fontFamily: 'Noto_Sans_KR',
