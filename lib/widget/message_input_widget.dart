@@ -58,18 +58,18 @@ class _MessageInputWidgetState extends State<MessageInputWidget> {
     }
 
     // 파일 선택
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'mp4'],
+    );
 
     if (result != null && result.files.isNotEmpty) {
       setState(() {
         _selectedFileName = result.files.first.name;
       });
 
-      if (result.files.isNotEmpty) {
-        File file = File(result.files.first.path!);
-
-        widget.setSelectedFile(file);
-      }
+      File file = File(result.files.first.path!);
+      widget.setSelectedFile(file);
 
       // 여기서 파일을 서버로 업로드하는 로직을 추가할 수 있습니다.
       print("Selected file: ${result.files.first.name}");

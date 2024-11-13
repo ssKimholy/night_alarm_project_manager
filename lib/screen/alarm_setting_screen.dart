@@ -1,11 +1,14 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:_night_alarm_manager/utils/date_time_util.dart';
 import 'package:_night_alarm_manager/utils/http_util.dart';
 import 'package:_night_alarm_manager/widget/alarm_days_widget.dart';
 import 'package:_night_alarm_manager/widget/alarm_time_widget.dart';
 import 'package:_night_alarm_manager/widget/message_input_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 class AlarmSettingScreen extends StatefulWidget {
   final String type;
@@ -50,6 +53,12 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
     setState(() {
       widget.selectedFile = file;
     });
+  }
+
+  String generateUniqueFileName(String extension) {
+    var uuid = const Uuid();
+    var now = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+    return '${uuid.v4()}_$now.$extension';
   }
 
   @override
@@ -110,14 +119,30 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
               ),
               GestureDetector(
                 onTap: () async {
+                  print('selected file: ${widget.selectedFile!.path}');
                   // submit code
                   if (widget.type == 'text') {
-                    HttpUtil.createTextMessage(widget.alarmTime,
+                    await HttpUtil.createTextMessage(widget.alarmTime,
                         widget.alarmDays, widget.type, widget.textMessage);
+                  } else if (widget.type == 'voice') {
+                    String uniqueFileName = generateUniqueFileName('mp3');
+
+                    await HttpUtil.createVoiceMessage(
+                        widget.alarmTime,
+                        widget.alarmDays,
+                        widget.selectedFile!.path,
+                        uniqueFileName);
                   } else {
-                    HttpUtil.createVoicetMessage(widget.alarmTime,
-                        widget.alarmDays, widget.selectedFile!.path, "");
+                    String uniqueFileName = generateUniqueFileName('mp4');
+
+                    await HttpUtil.createVideoMessage(
+                        widget.alarmTime,
+                        widget.alarmDays,
+                        widget.selectedFile!.path,
+                        uniqueFileName);
+                    // video send
                   }
+                  Navigator.pop(context);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 7.0),

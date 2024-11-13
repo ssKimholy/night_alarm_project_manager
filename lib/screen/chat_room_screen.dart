@@ -30,9 +30,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     return ChatElement(
       chatId: json['chatId'],
       chatType: json['user']['userType'],
-      chatDay: json['alarm']['alarmDays'],
-      content: json['user']['userType'] == 'text'
+      chatDay: json['createdAt'].split('T')[0],
+      textContent: json['user']['userType'] == 'text'
           ? json['alarm']['textContent']
+          : '',
+      mediaContent: json['user']['userType'] == 'text'
+          ? {"null": "2"}
           : json['alarm']['alarmContent'],
       answerList: [
         json['answer']['answer1'] ?? '-1',
@@ -147,8 +150,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             itemCount: widget.viewUser!.chatList.length,
             itemBuilder: (context, index) {
               return ChatWidget(
-                  user: widget.viewUser!,
-                  chat: widget.viewUser!.chatList[index]);
+                user: widget.viewUser!,
+                chat: widget.viewUser!.chatList[index],
+                tmpList: widget.viewUser!.chatList[index].answerList.toList(),
+              );
             },
           ),
         ));

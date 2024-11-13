@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +38,7 @@ class HttpUtil {
     } else {
       print(response.statusCode);
       print(response.body);
-      throw Exception('Fail to login');
+      throw Exception('Fail to getUserChatList');
     }
   }
 
@@ -68,20 +69,73 @@ class HttpUtil {
     }
   }
 
-  static Future<void> createVoicetMessage(String alarmTime,
+  static Future<void> createVoiceMessage(String alarmTime,
       List<String> alarmDays, String filePath, String alarmName) async {
-    print(alarmTime);
+    print(alarmName);
+
+    // Future<String> getFilePath(String filename) async {
+    //   final directory = await getApplication
+    //   return '${directory.path}/$filename';
+    // }
+
+    MultipartFile file = MultipartFile.fromFileSync(filePath,
+        filename: alarmName, contentType: DioMediaType.parse('audio/mp3'));
+    print(file.contentType);
 
     var dio = Dio();
     var formData = FormData.fromMap({
       'alarmTime': alarmTime.split(" ")[1],
       'alarmDays': alarmDays,
-      'alarmContent':
-          await MultipartFile.fromFile(filePath, filename: alarmName),
+      'alarmContent': MultipartFile.fromFileSync(filePath,
+          filename: alarmName, contentType: DioMediaType.parse('audio/mp3')),
       // 다른 form 데이터 추가 가능
     });
 
-    final response = await dio.post('$URL/alarm/voice/create', data: formData);
+    final response = await dio.post(
+      '$URL/alarm/voice/create',
+      data: formData,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print('okok');
+    } else {
+      print(response.statusCode);
+      print(response.data);
+    }
+  }
+
+  static Future<void> createVideoMessage(String alarmTime,
+      List<String> alarmDays, String filePath, String alarmName) async {
+    print(alarmName);
+
+    // Future<String> getFilePath(String filename) async {
+    //   final directory = await getApplication
+    //   return '${directory.path}/$filename';
+    // }
+
+    var dio = Dio();
+    var formData = FormData.fromMap({
+      'alarmTime': alarmTime.split(" ")[1],
+      'alarmDays': alarmDays,
+      'alarmContent': MultipartFile.fromFileSync(filePath,
+          filename: alarmName, contentType: DioMediaType.parse('video/mp4')),
+      // 다른 form 데이터 추가 가능
+    });
+
+    final response = await dio.post(
+      '$URL/alarm/video/create',
+      data: formData,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+    );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print('okok');

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 class DateTimeUtils {
   static String formatCurrentTime() {
     var now = DateTime.now();
-    var formatter = DateFormat('yyyy-MM-dd HH:mm');
+    var formatter = DateFormat('yyyy.MM.dd');
     return formatter.format(now);
   }
 
@@ -38,7 +38,7 @@ class DateTimeUtils {
   }
 
   static String convertDateToWeek(String dateString) {
-    DateTime datetime = DateFormat('yyyy.MM.dd').parse(dateString);
+    DateTime datetime = DateFormat('yyyy-MM-dd').parse(dateString);
 
     List<String> weekdays = ['월', '화', '수', '목', '금', '토', '일'];
 

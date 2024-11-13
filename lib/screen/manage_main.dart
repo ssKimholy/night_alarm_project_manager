@@ -19,6 +19,7 @@ class ManageMain extends StatelessWidget {
 
   Future<List<UserElement>> getUsers() async {
     List<dynamic> userData = await HttpUtil.getUsers();
+    print(userData);
     return userData
         .map((json) => UserElement(
             userName: json["userName"],
