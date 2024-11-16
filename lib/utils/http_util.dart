@@ -46,25 +46,44 @@ class HttpUtil {
       List<String> alarmDays, String alarmType, String alarmContent) async {
     print(alarmTime);
 
-    final response = await http.post(
-      Uri.parse('$URL/alarm/text/create'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        "alarmTime": alarmTime.split(" ")[1],
-        "alarmDays": alarmDays,
-        "alarmType": alarmType,
-        "alarmContent": alarmContent,
-      }),
+    var dio = Dio();
+    var formData = FormData.fromMap({
+      'alarmContent': alarmContent,
+      'alarmTime': alarmTime.split(" ")[1],
+      'alarmDays': alarmDays,
+      'alarmType': 'text'
+      // 다른 form 데이터 추가 가능
+    });
+
+    final response = await dio.post(
+      '$URL/alarm/text/create',
+      data: formData,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
     );
+
+    // final response = await http.post(
+    //   Uri.parse('$URL/alarm/text/create'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: jsonEncode(<String, dynamic>{
+    //     "alarmTime": alarmTime.split(" ")[1],
+    //     "alarmDays": alarmDays,
+    //     "alarmType": alarmType,
+    //     "alarmContent": alarmContent,
+    //   }),
+    // );
 
     if (response.statusCode == 200) {
       print('success!!');
       return;
     } else {
       print(response.statusCode);
-      print(response.body);
+
       throw Exception('Fail to create a text message.');
     }
   }
